@@ -1,6 +1,6 @@
 module EventStore
   class EventRepository
-    def initialize(adapter: Event)
+    def initialize(adapter: ::Event)
       @adapter = adapter
     end
     attr_reader :adapter

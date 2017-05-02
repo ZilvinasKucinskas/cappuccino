@@ -1,24 +1,46 @@
-# README
+# Goal
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Reactive EventSourcing demo application
 
-Things you may want to cover:
+## Installation instructions
 
-* Ruby version
+```
+bundle install
+bundle exec rake db:create
+bundle exec rake db:migrate db:test:prepare
+```
 
-* System dependencies
+## Running test suite
 
-* Configuration
+```
+bundle exec rake rspec spec/
+```
 
-* Database creation
+## Specific library usage described in depth
 
-* Database initialization
+### Working with events
 
-* How to run the test suite
+Firstly you have to define own event model extending EventStore::Event class.
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+class OrderPlaced < EventStore::Event
+end
 
-* Deployment instructions
+# or
 
-* ...
+OrderPlaced = Class.new(EventStore::Event)
+```
+
+Then you can create events via EventRepository:
+
+```
+stream_name = "order_1"
+event = OrderPlaced.new(data: {
+          order_data: "sample",
+          product_id: 2
+        })
+
+# publishing event for specific stream
+
+EventStore::EventRepository.new.create(event, stream_name: stream_name)
+```
