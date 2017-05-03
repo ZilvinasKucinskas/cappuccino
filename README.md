@@ -44,3 +44,23 @@ event = OrderPlaced.new(data: {
 
 EventStore::EventRepository.new.create(event, stream_name: stream_name)
 ```
+
+### Cappuccino usage
+
+```
+
+# Define events
+OrderPlaced = Class.new(EventStore::Event)
+
+# Create Streams
+Cappuccino::Stream.new(OrderPlaced)
+
+# Publish event
+stream_name = "order_1"
+event = OrderPlaced.new(data: {
+          order_data: "sample",
+          product_id: 2
+        })
+EventStore::EventRepository.new.create(event, stream_name)
+
+```

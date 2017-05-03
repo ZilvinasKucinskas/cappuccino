@@ -6,8 +6,12 @@ module EventStore
     attr_reader :adapter
 
     def create(event, stream_name)
-      data = event.to_h.merge!(stream: stream_name, event_type: event.class)
+      data = event.to_h.merge!(stream: stream_name)
       adapter.create(data)
+
+      # Notify observers of new event
+      event.emit if event.respond_to?(:emit)
+
       event
     end
 

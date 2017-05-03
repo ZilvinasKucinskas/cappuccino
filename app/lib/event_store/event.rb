@@ -2,6 +2,8 @@ require 'securerandom'
 
 module EventStore
   class Event
+    extend Observable
+
     def initialize(event_id: SecureRandom.uuid, metadata: nil, data: nil)
       @event_id = event_id.to_s
       @metadata = metadata.to_h
@@ -12,6 +14,7 @@ module EventStore
     def to_h
       {
           event_id:   event_id,
+          event_type: self.class,
           metadata:   metadata,
           data:       data
       }
@@ -24,5 +27,10 @@ module EventStore
     end
 
     alias_method :eql?, :==
+
+    def emit
+      self.class.changed
+      self.class.notify_observers(self.to_h)
+    end
   end
 end
