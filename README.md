@@ -6,7 +6,7 @@ Reactive EventSourcing demo application.
 
 ## Motivation
 
-EventSourcing describes current state as series of events that occurred in a system. Events hold all information that is needed to recreate current state. This method allows to achieve high volume of transactions, and enables efficient replication. Whereas reactive programming lets implement reactive systems in declarative style, decomposing logic into smaller, easier to understand components. Thesis aims to create reactive programming program interface, incorporating both principles. Applying reactive programming in event-sourcing systems enables modelling not only instantaneous events, but also have their history. Furthermore, it enables focus on the solvable problem, regardless of low level realization details. Reactive operators enable read model creation without exposing realization details of operations with data storage.
+EventSourcing describes current state as series of events that occurred in a system. Events hold all information that is needed to recreate current state. This method allows to achieve high volume of transactions, and enables efficient replication. Whereas reactive programming lets implement reactive systems in declarative style, decomposing logic into smaller, easier to understand components. The goal is to create reactive programming program interface, incorporating both principles. Applying reactive programming in event-sourcing systems enables modelling not only instantaneous events, but also have their history. Furthermore, it enables focus on the solvable problem, regardless of low level realization details. Reactive operators enable read model creation without exposing realization details of operations with data storage.
 
 ## Installation instructions
 
@@ -52,11 +52,6 @@ class MoneyWithdrawn < EventStore::Event; end
 We can define stream that is creating read model once in our app. Keep in mind that no database operations are present here.
 
 ```
-one_stream = Cappuccino::Stream.new(AccountCreated)
-second_stream = Cappuccino::Stream.new(AccountCreated)
-
-new_stream = Cappuccino::Stream.new(one_stream, second_stream)
-
 account_stream = Cappuccino::Stream.new(AccountCreated, MoneyDeposited, MoneyWithdrawn).
   as_persistent_type(Account, %i(account_id)).
   init(-> (state) { state.balance = 0 }).
