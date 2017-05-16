@@ -62,6 +62,10 @@ module Cappuccino
       When.new(self, event_type, blk)
     end
 
+    def each(blk)
+      Each.new(self, blk)
+    end
+
     def map(blk)
       Map.new(self, blk)
     end
