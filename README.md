@@ -56,7 +56,7 @@ MoneyWithdrawn = Class.new(EventStore::Event)
 
 # Create Streams
 account_stream = Cappuccino::Stream.new(AccountCreated, MoneyDeposited, MoneyWithdrawn).
-  as_persistent_type(AccountView, %i(account_id)).
+  as_persistent_type(Account, %i(account_id)).
   init(-> (state) { state.balance = 0 })
 
 
@@ -87,5 +87,5 @@ second_stream = Cappuccino::Stream.new(AccountCreated)
 new_stream = Cappuccino::Stream.new(one_stream, second_stream)
 
 account_stream = Cappuccino::Stream.new(AccountCreated, MoneyDeposited, MoneyWithdrawn).
-  as_persistent_type(AccountView, %i(account_id)).
+  as_persistent_type(Account, %i(account_id)).
   init(-> (state) { state.balance = 0 })
