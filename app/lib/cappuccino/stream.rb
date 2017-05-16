@@ -12,7 +12,6 @@ module Cappuccino
       @unique_resource_identifier = nil
 
       sources.each do |source|
-        # source.extend(Cappuccino::Source).add_observer(self)
         source.add_observer(self)
       end
     end
