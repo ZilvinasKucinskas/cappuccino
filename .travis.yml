@@ -14,5 +14,5 @@ script:
   - bundle exec rake db:test:prepare
   - bundle exec rspec spec/
 before_script:
-  - psql -c 'create database verifier_test;' -U postgres
+  - psql -c 'create database cappuccino_test;' -U postgres
 bundler_args: --binstubs=./bundler_stubs
