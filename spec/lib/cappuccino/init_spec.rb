@@ -2,33 +2,13 @@ require 'spec_helper'
 
 module Cappuccino
   describe Init do
-    AccountCreated = Class.new(EventStore::Event)
-    MoneyDeposited = Class.new(EventStore::Event)
-
-    let(:publish_account_created_event) do
-      event = AccountCreated.new(
-        data: {
-          account_id: 'LT121000011101001000'
-        }
-      )
-      EventStore::EventRepository.new.create(event, :account)
-    end
-
-    let(:publish_money_deposited_event) do
-      event = MoneyDeposited.new(
-        data: {
-          account_id: 'LT121000011101001000',
-          amount: 100
-        }
-      )
-      EventStore::EventRepository.new.create(event, :account)
-    end
+    include_examples "publish events"
 
     before(:all) do
       Cappuccino::Stream.new(AccountCreated, MoneyDeposited).
         as_persistent_type(Account, %i(account_id)).
         init(-> (state) { state.balance = 0 }).
-        when(Cappuccino::MoneyDeposited, -> (state, event) { state.balance += event[:data][:amount] })
+        when(MoneyDeposited, -> (state, event) { state.balance += event[:data][:amount] })
     end
 
     describe 'transition state' do
