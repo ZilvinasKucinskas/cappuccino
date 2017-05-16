@@ -60,6 +60,22 @@ account_stream = Cappuccino::Stream.new(AccountCreated, MoneyDeposited, MoneyWit
   init(-> (state) { state.balance = 0 })
 ```
 
+Instead of passing `lambda` directly, we can also use a variable to save and reuse `lambda`:
+
+```
+account_initial_state_change_function = -> (state) { state.balance = 0 }
+```
+
+or even use a class that implements `call` method. We can structure our code with some kind of denormalizer for example:
+
+```
+class Denormalizers::ReadModelType::InitialState::Account
+  def call(state)
+    state.balance = 0
+  end
+end
+```
+
 ### Publish events
 
 We can create an account:
