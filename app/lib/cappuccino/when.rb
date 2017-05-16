@@ -20,7 +20,7 @@ module Cappuccino
           resource.save!
         else
           resource = @resource_type.where(entity_id_hash).first
-          @block.call(resource)
+          @block.call(resource, event)
           resource.save!
         end
       end

@@ -4,7 +4,7 @@ module EventStore
   describe EventRepository do
     specify 'initialize with adapter' do
       repository = EventRepository.new
-      expect(repository.adapter).to eq(Event)
+      expect(repository.adapter).to eq(::Event)
     end
 
     specify 'provide own event implementation' do
