@@ -107,7 +107,7 @@ Withdraw some money (25$ for example) from the account:
 stream_name = "account"
 event = MoneyWithdrawn.new(data: {
           account_id: 'LT121000011101001000',
-          amount: 20
+          amount: 25
         })
 EventStore::EventRepository.new.create(event, stream_name)
 ```
