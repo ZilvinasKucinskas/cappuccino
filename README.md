@@ -119,6 +119,21 @@ account = Account.find_by(account_id: 'LT121000011101001000')
 puts account.balance # prints 75
 ```
 
+## Available reactive operators
+
+* `merge(another_stream)` - merge one stream to another.
+* `filter(predicate_function)` - if predicate function returns false, event won't get propogated through the chain any more.
+* `map(transform_function)` - applies transformation function and propogates event through the chain.
+* `init(initial_state_change_function)` - applies initial state change function for the first event.
+* `when(event_type, state_change_function)` - if event matches event type, record is being created or loaded, state change function is being applied for the record and transition state saved to database.
+* `each(state_change_function)` - same as `when` operator, just does not check event type and applies state change function for each event.
+
+## Implementation
+
+Reactive operators were implemented using Observer design pattern, object oriented programming principles and introspection.
+
+Transition state is being solved by applying metaprogramming (introspection, reflection) and using method chaining.
+
 ## Contributing
 
 1. Fork it
