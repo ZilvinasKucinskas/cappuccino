@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ZilvinasKucinskas/cappuccino.svg?branch=master)](https://travis-ci.org/ZilvinasKucinskas/cappuccino)
+
 # Goal
 
 Reactive EventSourcing demo application.
