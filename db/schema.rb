@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502174759) do
+ActiveRecord::Schema.define(version: 20170504232004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.integer "account_id"
+    t.decimal "balance",    precision: 8, scale: 2
+    t.index ["account_id"], name: "index_accounts_on_account_id", using: :btree
+  end
 
   create_table "event_store_events", force: :cascade do |t|
     t.string   "stream",     null: false
