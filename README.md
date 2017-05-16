@@ -50,17 +50,42 @@ EventStore::EventRepository.new.create(event, stream_name: stream_name)
 ```
 
 # Define events
-OrderPlaced = Class.new(EventStore::Event)
+AccountCreated = Class.new(EventStore::Event)
+MoneyDeposited = Class.new(EventStore::Event)
+MoneyWithdrawn = Class.new(EventStore::Event)
 
 # Create Streams
-Cappuccino::Stream.new(OrderPlaced)
+account_stream = Cappuccino::Stream.new(AccountCreated, MoneyDeposited, MoneyWithdrawn).
+  as_persistent_type(AccountView, %i(account_id)).
+  init(-> (state) { state.balance = 0 })
+
 
 # Publish event
-stream_name = "order_1"
-event = OrderPlaced.new(data: {
-          order_data: "sample",
-          product_id: 2
+stream_name = "account"
+event = AccountCreated.new(data: {
+          account_id: 1,
         })
 EventStore::EventRepository.new.create(event, stream_name)
 
 ```
+
+### Test working implementation
+
+```
+OrderPlaced = Class.new(EventStore::Event)
+
+stream = Cappuccino::Stream.new(OrderPlaced)
+
+```
+
+### Merge example
+
+# Create Streams
+one_stream = Cappuccino::Stream.new(AccountCreated)
+second_stream = Cappuccino::Stream.new(AccountCreated)
+
+new_stream = Cappuccino::Stream.new(one_stream, second_stream)
+
+account_stream = Cappuccino::Stream.new(AccountCreated, MoneyDeposited, MoneyWithdrawn).
+  as_persistent_type(AccountView, %i(account_id)).
+  init(-> (state) { state.balance = 0 })
