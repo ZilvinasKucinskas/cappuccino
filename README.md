@@ -126,3 +126,11 @@ puts account.balance # prints 75
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Possible improvements
+
+* Make a gem
+* Make demo application with UI. Controller should publish events. Event types and streams should be defined in some kind of initializer file for example.
+* Improve error handling - could be bugs, because it's just prototype version.
+* Refactor event publishing mechanics. We can borrow optimistic locking from [RailsEventStore](https://github.com/arkency/rails_event_store)
+* More tests
