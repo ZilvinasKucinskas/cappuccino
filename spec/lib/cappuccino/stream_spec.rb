@@ -57,7 +57,7 @@ module Cappuccino
         end
       end
 
-      describe 'Merge + Map' do
+      describe 'Merge + Map + Filter(true)' do
         context 'when filter predicate is true' do
           before do
             publish_account_created_event
@@ -68,6 +68,19 @@ module Cappuccino
           it { expect(Account.first.present?).to be_truthy }
           it { expect(Account.count).to eq(1) }
           it { expect(Account.first.balance).to eq(1150) }
+        end
+      end
+
+      describe 'Filter' do
+        context 'when filter does not pass events forward' do
+          before do
+            publish_account_created_event
+            publish_money_deposited_event # 100 and no bonus
+          end
+
+          it { expect(Account.first.present?).to be_truthy }
+          it { expect(Account.count).to eq(1) }
+          it { expect(Account.first.balance).to eq(100) }
         end
       end
     end
