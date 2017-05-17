@@ -22,6 +22,16 @@ RSpec.shared_examples "publish events" do
     EventStore::EventRepository.new.create(event, :account)
   end
 
+  let(:publish_big_money_deposited_event) do
+    event = MoneyDeposited.new(
+      data: {
+        account_id: 'LT121000011101001000',
+        amount: 1000
+      }
+    )
+    EventStore::EventRepository.new.create(event, :account)
+  end
+
   let(:publish_money_withdrawn_event) do
     event = MoneyWithdrawn.new(
       data: {

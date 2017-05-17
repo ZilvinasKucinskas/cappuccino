@@ -8,7 +8,8 @@ module Cappuccino
     end
 
     def update(event)
-      occur(@block.call(event))
+      @block.call(event)
+      occur(event)
     end
   end
 end

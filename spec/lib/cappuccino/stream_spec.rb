@@ -56,6 +56,20 @@ module Cappuccino
           it { expect(Account.first.balance).to eq(75) }
         end
       end
+
+      describe 'Merge + Map' do
+        context 'when filter predicate is true' do
+          before do
+            publish_account_created_event
+            publish_money_deposited_event # 100
+            publish_big_money_deposited_event # 1000 + 50 bonus = 1050
+          end
+
+          it { expect(Account.first.present?).to be_truthy }
+          it { expect(Account.count).to eq(1) }
+          it { expect(Account.first.balance).to eq(1150) }
+        end
+      end
     end
   end
 end
